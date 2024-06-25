@@ -81,6 +81,10 @@ class _BaseAxis(object):
         else:
             self._element._remove_minorGridlines()
 
+    @lazyproperty
+    def minor_gridlines(self):
+        return MinorGridlines(self._element)
+
     @property
     def has_title(self):
         """Read/write boolean specifying whether this axis has a title.
@@ -335,6 +339,21 @@ class MajorGridlines(ElementProxy):
         majorGridlines = self._xAx.get_or_add_majorGridlines()
         return ChartFormat(majorGridlines)
 
+class MinorGridlines(ElementProxy):
+    """Provides access to the properties of the minor gridlines appearing on an axis."""
+    
+    def __init__(self, xAx):
+        super(MinorGridlines, self).__init__(xAx)
+        self._xAx = xAx
+
+    @lazyproperty
+    def format(self):
+        """
+        The |ChartFormat| object providing access to the shape formatting
+        properties of this data point, such as line and fill.
+        """
+        minorGridlines = self._xAx.get_or_add_minorGridlines()
+        return ChartFormat(minorGridlines)
 
 class TickLabels(object):
     """A service class providing access to formatting of axis tick mark labels."""
